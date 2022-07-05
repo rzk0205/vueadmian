@@ -13,9 +13,12 @@ const getCaptcha = () => {
 const getUserInfo = () => {
   return request({ url: '/sys/userInfo', method: 'get' })
 }
-
+const getNavList = () => {
+  return request({ url: '/sys/menu/nav', method: 'get' })
+}
 export default {
   login,
   getCaptcha,
-  getUserInfo
+  getUserInfo,
+  getNavList
 }

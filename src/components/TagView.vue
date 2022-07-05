@@ -1,8 +1,56 @@
 <template>
-  <div class="tags-view-container">tag-view</div>
+  <div class="tags-view-container">
+    <ul class="tags-view-list">
+      <li
+        class="tags"
+        v-for="(item, index) in tagsView"
+        :key="item"
+        :class="{ active: item.path === $route.path }"
+        @click="handleSelectTag(item.path)"
+      >
+        {{ item.title }}
+        <span
+          v-if="$route.path === item.path"
+          @click.stop="handleCloseTag(index)"
+        >
+          x
+        </span>
+      </li>
+    </ul>
+  </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { useRouter, useRoute } from 'vue-router'
+import { useStore } from 'vuex'
+import { computed, watch } from 'vue'
+
+const store = useStore()
+const router = useRouter()
+const route = useRoute()
+watch(
+  () => router.currentRoute.value.path,
+  (toPath) => {
+    if (route.meta && route.meta.title && route.path) {
+      const obj = {
+        title: route.meta.title,
+        path: route.path
+      }
+      store.commit('tagsview/setTagsview', obj)
+    }
+  },
+  { immediate: true, deep: true }
+)
+const tagsView = computed(() => {
+  return store.getters.tagsView
+})
+const handleSelectTag = (path) => {
+  router.push(path)
+}
+const handleCloseTag = (index) => {
+  store.commit('tagsview/removeTagItem', index)
+}
+</script>
 
 <style scoped lang="scss">
 .tags-view-container {
@@ -37,16 +85,16 @@
   .tags.active {
     background-color: #fff;
     color: #409eff;
-    &::before {
-      content: '';
-      background: #fff;
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      position: relative;
-      margin-right: 4px;
-    }
+    // &::before {
+    //   content: '';
+    //   background: #fff;
+    //   display: inline-block;
+    //   width: 8px;
+    //   height: 8px;
+    //   border-radius: 50%;
+    //   position: relative;
+    //   margin-right: 4px;
+    // }
   }
 }
 </style>

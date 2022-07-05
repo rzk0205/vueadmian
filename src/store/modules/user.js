@@ -42,6 +42,12 @@ export default {
       commit('setUserInfo', res.data.data)
       return res
     },
+    async getNav({ commit }) {
+      const res = await Apiuser.getNavList()
+      console.log(res)
+      // commit('setUserInfo', res.data.data)
+      return res.data
+    },
     logout({ commit }) {
       commit('setToken', '')
       commit('setUserInfo', {})

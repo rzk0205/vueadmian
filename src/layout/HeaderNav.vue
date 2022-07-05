@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <h4 class="title">后台管理系统</h4>
+    <h4 class="title">Vueadmin后台管理系统</h4>
     <div class="header-right">
       <div class="avatar">
         <el-avatar :size="35" :src="avatarUrl.avatar" />
@@ -71,7 +71,6 @@ const handleLogout = async () => {
   .title {
     text-align: center;
     display: inline-block;
-    color: #fff;
   }
   .header-right {
     float: right;

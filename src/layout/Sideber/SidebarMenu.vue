@@ -1,51 +1,36 @@
 <template>
-  <div>
-    <el-menu
-      active-text-color="#ffd04b"
-      background-color="#545c64"
-      class="el-menu-vertical-demo"
-      default-active="2"
-      text-color="#fff"
-      @open="handleOpen"
-      @close="handleClose"
-    >
-      <el-sub-menu index="1">
-        <template #title>
-          <el-icon><location /></el-icon>
-          <span>Navigator One</span>
-        </template>
-        <el-menu-item-group title="Group One">
-          <el-menu-item index="1-1">item one</el-menu-item>
-          <el-menu-item index="1-2">item one</el-menu-item>
-        </el-menu-item-group>
-        <el-menu-item-group title="Group Two">
-          <el-menu-item index="1-3">item three</el-menu-item>
-        </el-menu-item-group>
-        <el-sub-menu index="1-4">
-          <template #title>item four</template>
-          <el-menu-item index="1-4-1">item one</el-menu-item>
-        </el-sub-menu>
-      </el-sub-menu>
-      <el-menu-item index="2">
-        <el-icon><icon-menu /></el-icon>
-        <span>Navigator Two</span>
-      </el-menu-item>
-      <el-menu-item index="3" disabled>
-        <el-icon><document /></el-icon>
-        <span>Navigator Three</span>
-      </el-menu-item>
-      <el-menu-item index="4">
-        <el-icon><setting /></el-icon>
-        <span>Navigator Four</span>
-      </el-menu-item>
-    </el-menu>
-  </div>
+  <el-menu
+    active-text-color="#fff"
+    background-color="#304156"
+    default-active=""
+    text-color="#bfcbd9"
+    unique-opened
+    router
+  >
+    <SidebarMenuItem
+      v-for="item in menuList"
+      :key="item"
+      :menuList="item"
+    ></SidebarMenuItem>
+  </el-menu>
 </template>
 
 <script setup>
 import { useRouter } from 'vue-router'
+import { computed } from 'vue'
+import { filterMenuData } from '../../utils/menu'
+import SidebarMenuItem from './SidebarMenuItem'
+import { filterRouters, generateMenus } from '../../utils/router'
 const router = useRouter()
-console.log(router.getRoutes())
+
+const menuList = computed(() => {
+  const routes = filterRouters(router.getRoutes())
+  return filterMenuData(generateMenus(routes))
+})
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.el-menu {
+  border-right: none;
+}
+</style>

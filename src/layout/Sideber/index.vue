@@ -1,11 +1,11 @@
 <template>
   <div>
-    <SidebarMenuVue></SidebarMenuVue>
+    <SidebarMenu></SidebarMenu>
   </div>
 </template>
 
 <script setup>
-import SidebarMenuVue from './SidebarMenu.vue'
+import SidebarMenu from './SidebarMenu.vue'
 </script>
 
 <style scoped lang="scss"></style>
