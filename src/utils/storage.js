@@ -14,3 +14,18 @@ export const getItem = (key) => {
     return data
   }
 }
+
+/**
+ * 删除单个本地存储的数据
+ * @param {*} key
+ */
+export const removeItem = (key) => {
+  localStorage.removeItem(key)
+}
+
+/**
+ * 删除本地所有数据
+ */
+export const removeAllItem = () => {
+  localStorage.clear()
+}

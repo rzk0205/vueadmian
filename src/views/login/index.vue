@@ -29,13 +29,16 @@
 <script setup>
 import { reactive, ref, computed } from 'vue'
 import { useStore } from 'vuex'
-// import Api from '../../api/user'
+import { useRouter } from 'vue-router'
 const store = useStore()
+const router = useRouter()
 const loginForm = reactive({
   username: 'test',
   password: '1234567',
-  code: ''
+  code: '',
+  token: ''
 })
+// const token = ref(null)
 const url = computed(() => {
   return store.getters.captchaImg
 })
@@ -49,13 +52,21 @@ const handleLoginSubmit = async () => {
   if (!loginRef.value) return
   await loginRef.value.validate(async (vaild) => {
     if (vaild) {
-      alert(123)
+      const val = await store.dispatch('user/login', loginForm)
+      console.log(val)
+      if (val.data.code === 200) {
+        // const res = await store.dispatch('user/getUserInfo')
+        // console.log(res)
+        router.push('/')
+      }
     }
   })
 }
 const getCapt = async () => {
   const res = await store.dispatch('user/getCapt')
   console.log(res)
+  loginForm.token = res.data.data.token
+  // token.value = res.data.token
 }
 getCapt()
 const getImg = () => {

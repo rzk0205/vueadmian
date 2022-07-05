@@ -2,9 +2,11 @@ import axios from 'axios'
 
 import loading from './loading'
 
+import store from '../store'
+// import store from '../store'
 import { ElMessage } from 'element-plus'
 const instance = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API,
+  baseURL: 'https://www.markerhub.com/vueadmin-java',
   timeout: 5000 // 超时时间
 })
 
@@ -12,7 +14,8 @@ instance.interceptors.request.use(
   (config) => {
     // 开启loading加载
     loading.open()
-    // config.headers.authorization = token
+    const token = store.getters.token
+    if (token) config.headers.authorization = token
 
     return config
   },
@@ -27,13 +30,12 @@ instance.interceptors.response.use(
     // 关闭loading加载
     loading.close()
     console.log(res) // 后端响应的数据
-    const { data, msg, code } = res.data
     // TODO 全局相应处理
-    if (code === 200) {
-      return data
+    if (res.data.code === 200) {
+      return res
     } else {
-      _showError(msg)
-      return Promise.reject(new Error(msg))
+      _showError(res.data.msg)
+      return Promise.reject(new Error(res.data.msg))
     }
     // return res
   },
