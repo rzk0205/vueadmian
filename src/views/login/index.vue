@@ -1,11 +1,6 @@
 <template>
-  <div class="login"></div>
+  <div></div>
 </template>
-
 <script setup></script>
 
-<style scoped lang="scss">
-.login {
-  background-color: #fafafa;
-}
-</style>
+<style scoped lang="scss"></style>
