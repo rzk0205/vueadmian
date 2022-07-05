@@ -26,15 +26,16 @@ instance.interceptors.response.use(
   (res) => {
     // 关闭loading加载
     loading.close()
-    // console.log(res) // 后端响应的数据
-    const { data, message, success } = res.data
+    console.log(res) // 后端响应的数据
+    const { data, msg, code } = res.data
     // TODO 全局相应处理
-    if (success) {
+    if (code === 200) {
       return data
     } else {
-      _showError(message)
-      return Promise.reject(new Error(message))
+      _showError(msg)
+      return Promise.reject(new Error(msg))
     }
+    // return res
   },
   (error) => {
     // 关闭loading加载
